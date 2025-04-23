@@ -5,8 +5,14 @@ import numpy as np
 from pygame import mixer
 import time
 
-mixer.init()
-sound = mixer.Sound('alarm.wav')
+# mixer.init()
+try:
+    mixer.init()
+    sound = mixer.Sound('static/alarm.wav')
+except Exception as e:
+    print("❌ Audio initialization failed:", e)
+    sound = None
+
 
 face = cv2.CascadeClassifier('haar cascade files\haarcascade_frontalface_alt.xml')
 leye = cv2.CascadeClassifier('haar cascade files\haarcascade_lefteye_2splits.xml')
@@ -84,7 +90,13 @@ while(True):
         #person is feeling sleepy so we beep the alarm
         cv2.imwrite(os.path.join(path,'image.jpg'),frame)
         try:
-            sound.play()
+            # sound.play()
+            if sound:
+                try:
+                    sound.play()
+                except:
+                    pass
+
 
         except: # isplaying = False
             pass
